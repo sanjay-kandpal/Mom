@@ -57,6 +57,12 @@ module.exports = {
         ring: "hsl(var(--ring))",
         "background-light": "#f6f6f8",
         "background-dark": "#101622",
+        "getstarted-primary": "#00FFC2",
+        "getstarted-bg-dark": "#05070A",
+        "getstarted-card-dark": "#0D1117",
+        "getstarted-accent-glow": "rgba(0, 255, 194, 0.15)",
+        "primary-light": "#1e3a8a",
+        "primary-light-hover": "#172554",
       },
       borderRadius: {
         DEFAULT: "0.25rem",
@@ -66,6 +72,7 @@ module.exports = {
       },
       fontFamily: {
         display: ["var(--font-inter)", "Inter", "sans-serif"],
+        outfit: ["var(--font-outfit)", "Outfit", "sans-serif"],
       },
     },
   },

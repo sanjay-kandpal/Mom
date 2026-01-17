@@ -12,8 +12,8 @@
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 222 84% 55%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 217 65% 33%;
+    --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
     --muted: 0 0% 96.1%;
@@ -24,7 +24,7 @@
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
-    --ring: 222 84% 55%;
+    --ring: 217 65% 33%;
     --radius: 0.25rem;
   }
 
@@ -35,8 +35,8 @@
     --card-foreground: 0 0% 98%;
     --popover: 220 36% 10%;
     --popover-foreground: 0 0% 98%;
-    --primary: 222 84% 55%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 170 100% 50%;
+    --primary-foreground: 0 0% 0%;
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 14.9%;
@@ -47,7 +47,7 @@
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
-    --ring: 222 84% 55%;
+    --ring: 170 100% 50%;
   }
 }
 
@@ -95,3 +95,35 @@
   }
 }
 
+@layer utilities {
+  .bg-circuit-grid {
+    background-image: 
+      linear-gradient(to right, rgba(0, 255, 194, 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 255, 194, 0.08) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(circle at center, black 30%, transparent 90%);
+    -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 90%);
+    position: relative;
+  }
+  
+  .bg-circuit-grid::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(0, 255, 194, 0.2) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+  }
+  
+  .text-glow {
+    text-shadow: 0 0 15px rgba(0, 255, 194, 0.4);
+  }
+  
+  .border-glow {
+    box-shadow: 0 0 20px rgba(0, 255, 194, 0.1);
+  }
+  
+  .material-symbols-outlined.getstarted {
+    font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+  }
+}

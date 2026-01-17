@@ -10,7 +10,7 @@ export default function ThemeToggle() {
     return (
       <button
         aria-label="Toggle theme"
-        className="size-8 2xl:size-10 3xl:size-12 flex items-center justify-center rounded-full text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-gray-800 transition-colors"
+        className="size-8 2xl:size-10 3xl:size-12 flex items-center justify-center rounded-full text-slate-400 hover:text-white hover:bg-white/5 transition-colors"
       >
         <span className="material-symbols-outlined text-[20px] 2xl:text-[24px] 3xl:text-[28px]">
           dark_mode
