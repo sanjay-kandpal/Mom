@@ -3,13 +3,13 @@
 import { useState, useEffect, useRef } from "react";
 import Header from "@/components/Header";
 import FileUpload from "@/components/FileUpload";
-import ContentTabs from "@/components/ContentTabs";
 import StatusFooter from "@/components/StatusFooter";
 import AudioExtractionModal from "@/components/AudioExtractionModal";
 import ExtractionMethodSelector from "@/components/ExtractionMethodSelector";
 import FFmpegDownloadOptions from "@/components/FFmpegDownloadOptions";
 import DownloadProgress from "@/components/DownloadProgress";
 import { Card } from "@/components/ui/card";
+import AudioPlayer from "@/components/AudioPlayer";
 import { useFFmpeg } from "@/lib/hooks/use-ffmpeg";
 
 export default function Home() {
@@ -25,6 +25,8 @@ export default function Home() {
   });
   const downloadIntervalRef = useRef(null);
   const downloadAbortControllerRef = useRef(null);
+  const [extractedAudio, setExtractedAudio] = useState(null);
+  const [extractedAudioFileName, setExtractedAudioFileName] = useState(null);
 
   // Use FFmpeg hook
   const {
@@ -34,6 +36,7 @@ export default function Home() {
     error: ffmpegError,
     downloadAndInitialize,
     checkIfDownloaded,
+    ffmpegReady,
   } = useFFmpeg();
 
   useEffect(() => {
@@ -111,6 +114,9 @@ export default function Home() {
           fileProgress: 100,
         });
         
+        // Set download status to completed to trigger resume
+        setFfmpegDownloadStatus("completed");
+        
         // Update selected method after download completes
         setTimeout(() => {
           setSelectedMethod("ffmpeg");
@@ -184,16 +190,25 @@ export default function Home() {
     <div className="min-h-screen flex flex-col bg-white dark:bg-getstarted-bg-dark text-slate-900 dark:text-slate-300 transition-colors duration-200">
       <Header />
       <main className="flex-grow flex flex-col justify-center py-8 px-4 sm:px-6 lg:px-8 2xl:px-12 3xl:px-16 max-w-7xl 2xl:max-w-[1600px] 3xl:max-w-[1800px] mx-auto w-full h-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 2xl:gap-8 3xl:gap-10 h-full min-h-[600px] 2xl:min-h-[700px]">
-          <div className="lg:col-span-5 flex flex-col h-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 2xl:gap-8 3xl:gap-10 h-full min-h-[600px] 2xl:min-h-[700px]">
+          {/* Left: File Upload */}
+          <div className="flex flex-col h-full">
             <Card className="bg-white dark:bg-getstarted-card-dark rounded-xl shadow-sm border border-slate-100 dark:border-white/5 flex flex-col h-full overflow-hidden">
-              <FileUpload />
+              <FileUpload 
+                onWasmDownloadRequired={() => setFfmpegDownloadStatus("options")}
+                wasmDownloadComplete={ffmpegDownloadStatus === "completed" || downloadStatus === "completed" || ffmpegReady}
+                onAudioExtracted={(audioBlob, fileName) => {
+                  setExtractedAudio(audioBlob);
+                  setExtractedAudioFileName(fileName);
+                }}
+              />
             </Card>
           </div>
-          <div className="lg:col-span-7 flex flex-col h-full">
+          
+          {/* Right: Audio Player */}
+          <div className="flex flex-col h-full">
             <Card className="bg-white dark:bg-getstarted-card-dark rounded-xl shadow-sm border border-slate-100 dark:border-white/5 flex flex-col h-full overflow-hidden">
-              <ContentTabs />
-              <StatusFooter />
+              <AudioPlayer audioBlob={extractedAudio} fileName={extractedAudioFileName} />
             </Card>
           </div>
         </div>
